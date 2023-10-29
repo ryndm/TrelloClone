@@ -17,5 +17,4 @@ public class OodProjectApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OodProjectApplication.class, args);
 	}
-
 }
