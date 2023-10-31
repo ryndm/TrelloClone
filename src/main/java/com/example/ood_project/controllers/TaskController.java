@@ -17,6 +17,8 @@ public class TaskController {
     public @ResponseBody String addNewTask (@RequestBody Task task) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
+
+        // Validate input
         taskRepository.save(task);
         return "Saved";
     }
@@ -24,6 +26,15 @@ public class TaskController {
     @GetMapping(path="")
     public @ResponseBody Iterable<Task> getAllTasks() {
         // This returns a JSON or XML with the tasks
+
+        // Add pagination, filtering etc.
         return taskRepository.findAll();
     }
+
+    // Modify Task API PutMapping
+    // Validation needed
+    // is the task present etc.
+
+    // Delete Task API DeleteMapping
+    // is the task present.
 }

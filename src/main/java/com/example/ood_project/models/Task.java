@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -18,16 +19,21 @@ public class Task {
     private String title;
 
     @Column(nullable = true)
-    private String description;
+    private String description; // by default null
 
     @Column(nullable = true)
-    private TaskState state;
+    private TaskState state; // by default todo
 
     @Column(nullable = true)
-    private Date created_at;
+    private Date created_at; // by default current time. Should not be given in input
 
     @ManyToMany(mappedBy = "tasks") // mappedBy points to the "tasks" field in the User class
-    private Set<User> users;
+    private Set<User> users; // by default null or an empty set
+
+    @Column(nullable = true)
+    private List<String> comments;
+
+    // Validate all the fields
 }
 
 enum TaskState {
