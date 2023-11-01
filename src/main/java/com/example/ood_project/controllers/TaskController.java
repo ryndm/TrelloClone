@@ -1,14 +1,10 @@
 package com.example.ood_project.controllers;
 
-
 import com.example.ood_project.exceptions.NotFoundException;
-import com.example.ood_project.models.Task;
-import com.example.ood_project.repositories.TaskRepository;
-import jakarta.validation.Valid;
 import com.example.ood_project.models.Task;
 import com.example.ood_project.models.TaskState;
 import com.example.ood_project.repositories.TaskRepository;
-
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -40,11 +36,11 @@ public class TaskController {
         List<Task> tasks = taskRepository.findByState(state);
         return tasks;
     }
-    @GetMapping(path="/getTasksByAssignee")
-    public @ResponseBody Iterable<Task> getTasksByAssignee(@RequestBody String user) {
-        List<Task> tasks = taskRepository.findByAssignee(user);
-        return tasks;
-    }
+//    @GetMapping(path="/getTasksByAssignee")
+//    public @ResponseBody Iterable<Task> getTasksByAssignee(@RequestBody String user) {
+//        List<Task> tasks = taskRepository.findByAssignee(user);
+//        return tasks;
+//    }
 
     @GetMapping(path="/getTaskByTitle")
     public @ResponseBody Iterable<Task> getTasksByTitle(@RequestBody String title) {
