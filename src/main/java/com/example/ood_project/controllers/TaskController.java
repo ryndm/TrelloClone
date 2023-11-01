@@ -1,6 +1,7 @@
 package com.example.ood_project.controllers;
 
 import com.example.ood_project.models.Task;
+import com.example.ood_project.models.TaskState;
 import com.example.ood_project.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,6 +37,22 @@ public class TaskController {
 
         // Add pagination, filtering etc.
         return taskRepository.findAll();
+    }
+    @GetMapping(path="/getTasksByStatus")
+    public @ResponseBody Iterable<Task> getTasksByStatus(@RequestBody TaskState state) {
+        List<Task> tasks = taskRepository.findByState(state);
+        return tasks;
+    }
+    @GetMapping(path="/getTasksByAssignee")
+    public @ResponseBody Iterable<Task> getTasksByAssignee(@RequestBody String user) {
+        List<Task> tasks = taskRepository.findByAssignee(user);
+        return tasks;
+    }
+
+    @GetMapping(path="/getTaskByTitle")
+    public @ResponseBody Iterable<Task> getTasksByTitle(@RequestBody String title) {
+        List<Task> tasks = taskRepository.findByTitle(title);
+        return tasks;
     }
 
     @DeleteMapping(path="/deleteTask/{id}")

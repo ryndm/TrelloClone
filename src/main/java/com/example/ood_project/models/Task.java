@@ -46,8 +46,3 @@ public class Task {
     // Validate all the fields
 }
 
-enum TaskState {
-    TODO,
-    DOING,
-    DONE
-}
