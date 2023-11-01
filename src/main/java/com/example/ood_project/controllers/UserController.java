@@ -1,6 +1,7 @@
 package com.example.ood_project.controllers;
 
 import com.example.ood_project.models.User;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +15,10 @@ public class UserController {
     private UserRepository userRepository;
 
     @PostMapping(path="") // Map ONLY POST Requests
-    public @ResponseBody String addNewUser (@RequestBody User user) {
+    public @ResponseBody User addNewUser (@Valid @RequestBody User user) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
-        userRepository.save(user);
-        return "Saved";
+        return userRepository.save(user);
     }
 
     @GetMapping(path="")

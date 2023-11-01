@@ -1,9 +1,10 @@
 package com.example.ood_project.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -14,16 +15,12 @@ public class Comment {
     private Long id;
 
     @Column(nullable = false)
-    private String content;
+    @NotBlank(message = "Comment cannot be empty.")
+    @NotNull(message = "Comment is required.")
+    private String val;
 
     @Column(nullable = false)
-    private Date created_at;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "task_id")
-    private Task task;
+    @NotBlank(message = "User cannot be empty.")
+    @NotNull(message = "User is required.")
+    private String userEmail;
 }
