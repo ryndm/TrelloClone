@@ -3,6 +3,8 @@ package com.example.ood_project.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -25,7 +27,7 @@ public class Task {
     private TaskState state; // by default todo
 
     @Column(nullable = true)
-    private Date created_at; // by default current time. Should not be given in input
+    private LocalDateTime created_at; // by default current time. Should not be given in input
 
     @ManyToMany(mappedBy = "tasks") // mappedBy points to the "tasks" field in the User class
     private Set<User> users; // by default null or an empty set
