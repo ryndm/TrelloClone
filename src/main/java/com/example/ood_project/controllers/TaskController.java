@@ -1,9 +1,14 @@
 package com.example.ood_project.controllers;
 
+
 import com.example.ood_project.exceptions.NotFoundException;
 import com.example.ood_project.models.Task;
 import com.example.ood_project.repositories.TaskRepository;
 import jakarta.validation.Valid;
+import com.example.ood_project.models.Task;
+import com.example.ood_project.models.TaskState;
+import com.example.ood_project.repositories.TaskRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +34,22 @@ public class TaskController {
 
         // Add pagination, filtering etc.
         return taskRepository.findAll();
+    }
+    @GetMapping(path="/getTasksByStatus")
+    public @ResponseBody Iterable<Task> getTasksByStatus(@RequestBody TaskState state) {
+        List<Task> tasks = taskRepository.findByState(state);
+        return tasks;
+    }
+    @GetMapping(path="/getTasksByAssignee")
+    public @ResponseBody Iterable<Task> getTasksByAssignee(@RequestBody String user) {
+        List<Task> tasks = taskRepository.findByAssignee(user);
+        return tasks;
+    }
+
+    @GetMapping(path="/getTaskByTitle")
+    public @ResponseBody Iterable<Task> getTasksByTitle(@RequestBody String title) {
+        List<Task> tasks = taskRepository.findByTitle(title);
+        return tasks;
     }
 
     @GetMapping(path="/{id}")
@@ -60,9 +81,14 @@ public class TaskController {
                     if (task.getDescription() != null)
                         existingTask.setDescription(task.getDescription());
 
-//            if (task.getComments() != null) {
-//                existingTask.setComments(task.getComments());
-//            }
+//                    if (task.getComments() != null) {
+//                        List<String> commentsList = new ArrayList<String>();
+//                        if (existingTask.getComments() != null)
+//                            commentsList.addAll(existingTask.getComments());
+//                        commentsList.addAll(task.getComments());
+//                        existingTask.setComments(commentsList);
+//                    }
+
                     return taskRepository.save(existingTask);
                 })
                 .orElseThrow(() -> new NotFoundException("Task with ID " + id + " not found"));
