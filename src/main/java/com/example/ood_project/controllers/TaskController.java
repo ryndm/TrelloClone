@@ -108,11 +108,21 @@ public class TaskController implements Observer {
     }
 
     @PostMapping(path="/undoDelete")
-    public @ResponseBody String undoDelete() {
+    public @ResponseBody String undoDelete() throws NotFoundException {
         if (!taskHistory.isEmpty()) {
             TaskMemento lastMemento = taskHistory.pop();
-            Task taskToRestore = lastMemento.getTask();
-            taskRepository.save(taskToRestore);
+            Task taskToRestore = taskRepository.save(lastMemento.getTask());
+            Set<User> users = taskToRestore.getUsers();
+
+            for (User user : users) {
+                Long userId = user.getId();
+                User _user = userRepository.findById(userId)
+                        .orElseThrow(() -> new NotFoundException("User not found."));
+                _user.getTasks().add(taskToRestore);
+                userRepository.save(_user);
+                taskAssignmentObservable.taskAssigned(userId);
+            }
+
             return "Last delete operation undone.";
         } else {
             return "No delete operation to undo.";

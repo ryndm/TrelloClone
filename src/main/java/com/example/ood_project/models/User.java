@@ -50,7 +50,7 @@ public class User {
     @Override
     public String toString() {
         return String.format(
-                "Customer[id=%d, firstName='%s', lastName='%s']",
+                "User[id=%d, firstName='%s', lastName='%s']",
                 id, firstName, lastName);
     }
 
