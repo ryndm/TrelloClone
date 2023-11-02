@@ -86,7 +86,20 @@ public class TaskController implements Observer {
                 .map(task -> {
                     Task deleteTask = deletedTask.get();
                     TaskMemento memento = new TaskMemento(task);
-
+                    for(User user : task.getUsers()) {
+                        Long userId = user.getId();
+                        User _user = null;
+                        try {
+                            _user = userRepository.findById(userId)
+                                    .orElseThrow(() -> new NotFoundException("User not found."));
+                        } catch (NotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
+                        if(_user.getTasks().contains(task)) {
+                            _user.getTasks().remove(task);
+                        }
+                        userRepository.save(_user);
+                    }
                     taskRepository.deleteById(id);
                     taskHistory.push(memento);
                     return "Task with ID " + id + " deleted successfully";
@@ -112,7 +125,6 @@ public class TaskController implements Observer {
                 .map(existingTask -> {
                     if (task.getTitle() != null)
                         existingTask.setTitle(task.getTitle());
-
                     if (task.getUsers() != null) {
 //                        existingTask.setUsers(task.getUsers());
 
