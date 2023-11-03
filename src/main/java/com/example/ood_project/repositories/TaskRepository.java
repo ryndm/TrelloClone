@@ -2,7 +2,6 @@ package com.example.ood_project.repositories;
 
 import com.example.ood_project.models.Task;
 import com.example.ood_project.models.TaskState;
-import com.example.ood_project.models.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.*;

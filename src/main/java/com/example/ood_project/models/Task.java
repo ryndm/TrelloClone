@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -36,13 +37,24 @@ public class Task {
     @Column(nullable = true)
     private LocalDateTime created_at; // by default current time. Should not be given in input
 
-
+    @Column(nullable = true)
     @ManyToMany(mappedBy = "tasks") // mappedBy points to the "tasks" field in the User class
     private Set<User> users; // by default null or an empty set
 
-    @OneToMany
+    @OneToMany(mappedBy = "task")
     @Column(nullable = true)
     private List<Comment> comments;
+
+    // Below fields are used for analytics
+
+    @Column(nullable = true)
+    private Long timeInToDo = 0L;
+
+    @Column(nullable = true)
+    private Long timeInDoing = 0L;
+
+    @Column(nullable = true)
+    private LocalDateTime lastStateChange = LocalDateTime.now();
 
     // Redundant
 //    @PrePersist
